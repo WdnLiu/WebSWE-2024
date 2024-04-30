@@ -4,6 +4,8 @@ package models;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import utils.DBManager;
+import java.sql.*;
 
 public class User implements java.io.Serializable {
 	
@@ -24,11 +26,14 @@ public class User implements java.io.Serializable {
 	private String gender = "";
 	private String pwd = "";
 	
+	private DBManager database;
+	
 	private HashMap<String, String> errors;
 	
 
 	public User() {
 		errors = new HashMap<String, String>();
+		database = new DBManager();
 	}
 	
 	public String getUser() {
@@ -38,9 +43,26 @@ public class User implements java.io.Serializable {
 	public void setUser(String user) {
 		/* We can simulate that a user with the same name exists in our DB and mark error[0] as true  */
 		/* TODO: validate logical specifications and check uniquiness in DB */
-		errors.put("user", "Error in the name.");
-		//this.user = user;
-		System.out.println(user);
+		
+		try {
+			PreparedStatement query = database.prepareStatement("SELECT * FROM users WHERE usr = ?;");
+			query.setString(1, user);
+			ResultSet result = query.executeQuery();
+			if (result.next()) {
+				errors.put("user", "Name already exists.");
+				System.out.println("Name already exists.");
+			}
+			else {
+				System.out.println(user);
+				this.user = user;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// errors.put("user", "Error in the name.");
+
+
 	}
 	
 	public String getMail() {
@@ -52,13 +74,27 @@ public class User implements java.io.Serializable {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(mail);
 		if (matcher.matches()) {
-			this.mail = mail;
+			try {
+				PreparedStatement query = database.prepareStatement("SELECT * FROM users WHERE mail = ?;");
+				query.setString(1, mail);
+				ResultSet result = query.executeQuery();
+				if (result.next()) {
+					errors.put("user", "Mail already exists.");
+					System.out.println("Mail already exists.");
+				}
+				else {
+					System.out.println(user);
+					this.mail = mail;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println(mail);
 		} else {
 			errors.put("mail","Error in the mail.");
 			System.out.println(mail);
 		}
-		
 	}
 	
 	public void setGender(String gender) {

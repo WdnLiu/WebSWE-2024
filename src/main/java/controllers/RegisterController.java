@@ -29,7 +29,6 @@ public class RegisterController extends HttpServlet {
     public RegisterController() {
         super();
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
