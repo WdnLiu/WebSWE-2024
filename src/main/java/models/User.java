@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import utils.DBManager;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class User implements java.io.Serializable {
 	
@@ -22,9 +24,13 @@ public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String user = "";
-	private String mail = "";
-	private String gender = "";
+	private String name = "";
 	private String pwd = "";
+	private String mail = "";
+	private String born = null;
+	private String pref = "";
+	private String favSong = "";
+	private String favSinger = "";
 	
 	private DBManager database;
 	
@@ -57,12 +63,8 @@ public class User implements java.io.Serializable {
 				this.user = user;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// errors.put("user", "Error in the name.");
-
-
 	}
 	
 	public String getMail() {
@@ -96,27 +98,79 @@ public class User implements java.io.Serializable {
 			System.out.println(mail);
 		}
 	}
-	
-	public void setGender(String gender) {
-		this.gender = gender;
+
+
+	public String getName() {
+		return name;
 	}
-	
-	public String getGender() {
-		return this.gender;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
+	public String getPref() {
+		return pref;
+	}
+
+	public void setPref(String pref) {
+		this.pref = pref;
+	}
+
+	public String getFavSong() {
+		return favSong;
+	}
+
+	public void setFavSong(String favSong) {
+		this.favSong = favSong;
+	}
+
+	public String getFavSinger() {
+		return favSinger;
+	}
+
+	public void setFavSinger(String favSinger) {
+		this.favSinger = favSinger;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public String getPwd() {
 		return this.pwd;
 	}
 	
 	public void setPwd(String pwd) {
-		/* TODO check restriction with pattern */
 		this.pwd = pwd;
 		System.out.println(pwd);
 	}
+
+	public String getBorn() {
+		return born;
+	}
+
+    public void setBorn(String born) {
+    	LocalDate date = LocalDate.parse(born);
+    	LocalDate curr = LocalDate.now();
+        Period agePeriod = Period.between(date, curr);
+        int age = agePeriod.getYears();
+        if (age < 16) {
+            errors.put("birthday", "Your age is not allowed");
+            this.born = born;
+        } 
+        System.out.println(born);
+    }
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	
-	public HashMap<String,String> getErrors() {
-		return errors;
+	public HashMap<String, String> getErrors() {
+		return this.errors;
 	}
 		
 }

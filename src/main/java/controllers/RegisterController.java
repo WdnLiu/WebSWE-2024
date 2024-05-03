@@ -57,7 +57,6 @@ public class RegisterController extends HttpServlet {
 		request.setAttribute("model", user);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
-			
 	}
 
 	/**
