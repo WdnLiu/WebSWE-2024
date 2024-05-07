@@ -141,7 +141,15 @@ public class User implements java.io.Serializable {
 	}
 	
 	public void setPwd(String pwd) {
-		this.pwd = pwd;
+		String regex = " ^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\\d]{6,}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(pwd);
+		if (matcher.matches()) {
+			this.pwd = pwd;
+		} else {
+			errors.put("mail","Error in the password.");
+			System.out.println(mail);
+		}
 		System.out.println(pwd);
 	}
 
@@ -156,18 +164,10 @@ public class User implements java.io.Serializable {
         int age = agePeriod.getYears();
         if (age < 16) {
             errors.put("birthday", "Your age is not allowed");
-            this.born = born;
         } 
+        this.born = born;
         System.out.println(born);
     }
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 	
 	public HashMap<String, String> getErrors() {
 		return this.errors;
