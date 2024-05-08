@@ -34,7 +34,7 @@ input:invalid {
   <label for="birth"> Date of Birth (Age > 16):</label><br/>
   <input type="date" id="date" name="born" value="${model.born}" required><br/>
   <label for="pwd1"> Password: </label><br/>
-  <input type="password" id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{12,}$"><br/>
+  <input type="password" id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{6,}$"><br/>
   <label for="pwd2"> Confirm Password: </label><br/>
   <input type="password" id="pwdc" placeholder="Confirm Password" value="${model.pwd}" required><br/><br/>
   <label for="favSinger"> Favourite Singer:</label><br/>
@@ -46,34 +46,49 @@ input:invalid {
   <button> Submit </button>
 </form>
 <script>
-document.getElementById('date').addEventListener('change', function() {
-    var dob = new Date(this.value);
-    var today = new Date();
-    var age = today.getFullYear() - dob.getFullYear();
-    var m = today.getMonth() - dob.getMonth();
+
+const form = document.getElementById("regform");
+const pwd = document.getElementById("pwd");
+const pwdc = document.getElementById("pwdc");
+
+
+var checkPasswordValidity = function() {
+	 if (pwdc.value !== pwd.value) {
+		pwdc.setCustomValidity("Passwords must match!");
+	} else {
+		pwdc.setCustomValidity("");
+	}
+}
+pwdc.addEventListener("input", checkPasswordValidity, false);
+
+const age = document.getElementById("date");
+function checkAgeValidity() {
+    const today = new Date();
+    const dateOfBirth = new Date(dateInput.value);
+    const m = today.getMonth() - dob.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
         age--;
     }
-    if (age > 16) {
-        document.getElementById('ageMessage').innerText = "You are over 16 years old.";
+    let age = today.getFullYear() - dateOfBirth.getFullYear();
+    
+    if (age < 16) {
+        dateInput.setCustomValidity("You must be at least 16 years old.");
     } else {
-        document.getElementById('ageMessage').innerText = "You must be over 16 years old.";
+        dateInput.setCustomValidity("");
     }
-});
-</script>
-<script>
-document.getElementById('pwdc').addEventListener('change', function() {
-    var pwd = document.getElementById('pwd').value;
-    var pwdc = this.value;
-    var messageElement = document.getElementById('passwordMatchMessage');
-    if (pwd === pwdc) {
-        messageElement.innerText = "Passwords match.";
-    } else {
-        messageElement.innerText = "Passwords do not match.";
-    }
-});
-</script>
-<script>
+}
+
+// Attach the checkAgeValidity function to the input event of the date input field
+age.addEventListener("input", checkAgeValidity);
+
+form.addEventListener("submit", function (event) {
+	checkPasswordValidity();
+	if (!this.checkValidity()) {
+		this.reportValidity();
+		event.preventDefault();
+	} 
+}, false);
+
 function validateForm() {
     var pwd = document.getElementById('pwd').value;
     var pwdc = document.getElementById('pwdc').value;
