@@ -141,13 +141,13 @@ public class User implements java.io.Serializable {
 	}
 	
 	public void setPwd(String pwd) {
-		String regex = " ^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\\d]{6,}$";
+		String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\\d]{6,}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(pwd);
 		if (matcher.matches()) {
 			this.pwd = pwd;
 		} else {
-			errors.put("mail","Error in the password.");
+			errors.put("password","Error in the password.");
 			System.out.println(mail);
 		}
 		System.out.println(pwd);
