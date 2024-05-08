@@ -164,8 +164,9 @@ public class User implements java.io.Serializable {
         int age = agePeriod.getYears();
         if (age < 16) {
             errors.put("birthday", "Your age is not allowed");
-        } 
-        this.born = born;
+        } else {
+        	this.born = born;
+        }
         System.out.println(born);
     }
 	
