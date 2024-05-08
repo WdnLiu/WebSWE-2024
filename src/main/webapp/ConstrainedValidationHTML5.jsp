@@ -24,7 +24,7 @@ input:invalid {
 	</c:forEach>
 </ul>
 
-<form action="RegisterController" method="POST">
+<form action="RegisterController" method="POST" onsubmit="return validateForm()">
   <label for="name"> Name:</label><br/>
   <input type="text" id="name" name="name" placeholder="Name" value="${model.name}" required><br/>
   <label for="user"> UserName (cannot repeat):</label><br/>
@@ -34,7 +34,7 @@ input:invalid {
   <label for="birth"> Date of Birth (Age > 16):</label><br/>
   <input type="date" id="date" name="born" value="${model.born}" required><br/>
   <label for="pwd1"> Password: </label><br/>
-  <input type="password" id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{6,}$"><br/>
+  <input type="password" id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{12,}$"><br/>
   <label for="pwd2"> Confirm Password: </label><br/>
   <input type="password" id="pwdc" placeholder="Confirm Password" value="${model.pwd}" required><br/><br/>
   <label for="favSinger"> Favourite Singer:</label><br/>
@@ -60,6 +60,8 @@ document.getElementById('date').addEventListener('change', function() {
         document.getElementById('ageMessage').innerText = "You must be over 16 years old.";
     }
 });
+</script>
+<script>
 document.getElementById('pwdc').addEventListener('change', function() {
     var pwd = document.getElementById('pwd').value;
     var pwdc = this.value;
@@ -70,6 +72,24 @@ document.getElementById('pwdc').addEventListener('change', function() {
         messageElement.innerText = "Passwords do not match.";
     }
 });
+</script>
+<script>
+function validateForm() {
+    var pwd = document.getElementById('pwd').value;
+    var pwdc = document.getElementById('pwdc').value;
+    var dob = document.getElementById('date').value;
+    var today = new Date();
+    var age = today.getFullYear() - dob.getFullYear();
+    var m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+    if (age >= 16 && pwd == pwdc) {
+        return true;
+    } else {
+        return false;
+    }
+}
 </script>
 
 </body>
