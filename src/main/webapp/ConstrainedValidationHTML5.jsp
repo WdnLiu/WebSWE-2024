@@ -30,7 +30,7 @@ input:invalid {
   <label for="user"> UserName (cannot repeat):</label><br/>
   <input type="text" id="user" name="user" placeholder="UserName" value="${model.user}" required><br/>
   <label for="mail"> Mail (cannot repeat):</label><br/>
-  <input type="email" id="mail" name="mail" placeholder="Mail" value="${model.mail}" required><br/>
+  <input type="email" id="mail" name="mail" placeholder="Mail" value="${model.mail}" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+"><br/>
   <label for="birth"> Date of Birth (Age > 16):</label><br/>
   <input type="date" id="date" name="born" value="${model.born}" required><br/>
   <label for="pwd1"> Password: </label><br/>
@@ -45,6 +45,32 @@ input:invalid {
   <input type="text" id="pref" name="pref" placeholder="pref" value="${model.pref}"><br/><br/>
   <button> Submit </button>
 </form>
+<script>
+document.getElementById('date').addEventListener('change', function() {
+    var dob = new Date(this.value);
+    var today = new Date();
+    var age = today.getFullYear() - dob.getFullYear();
+    var m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+    if (age > 16) {
+        document.getElementById('ageMessage').innerText = "You are over 16 years old.";
+    } else {
+        document.getElementById('ageMessage').innerText = "You must be over 16 years old.";
+    }
+});
+document.getElementById('pwdc').addEventListener('change', function() {
+    var pwd = document.getElementById('pwd').value;
+    var pwdc = this.value;
+    var messageElement = document.getElementById('passwordMatchMessage');
+    if (pwd === pwdc) {
+        messageElement.innerText = "Passwords match.";
+    } else {
+        messageElement.innerText = "Passwords do not match.";
+    }
+});
+</script>
 
 </body>
 </html>

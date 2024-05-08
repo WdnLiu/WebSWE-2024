@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import models.User;
 import utils.DBManager;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserManager {
 	
 	private DBManager db = null ;
@@ -49,7 +52,7 @@ public class UserManager {
 	    	   hasValue(user.getName()) &&
 	    	   hasValue(user.getBorn()));
 	}
-	
+
 	private boolean hasValue(String val) {
 		return((val != null) && (!val.equals("")));
 	}
