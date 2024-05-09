@@ -47,64 +47,51 @@ input:invalid {
 </form>
 <script>
 
-const form = document.getElementById("regform");
-const pwd = document.getElementById("pwd");
-const pwdc = document.getElementById("pwdc");
-
-
-var checkPasswordValidity = function() {
-	 if (pwdc.value !== pwd.value) {
-		pwdc.setCustomValidity("Passwords must match!");
-	} else {
-		pwdc.setCustomValidity("");
+	const form = document.getElementById("regform");
+	const pwd = document.getElementById("pwd");
+	const pwdc = document.getElementById("pwdc");
+	
+	
+	var checkPasswordValidity = function() {
+		 if (pwdc.value !== pwd.value) {
+			pwdc.setCustomValidity("Passwords must match!");
+		} else {
+			pwdc.setCustomValidity("");
+		}
 	}
-}
-pwdc.addEventListener("input", checkPasswordValidity, false);
+	
+    pwdc.addEventListener("input", checkPasswordValidity, false);
+    pwd.addEventListener("input", checkPasswordValidity, false);
 
-const age = document.getElementById("date");
-function checkAgeValidity() {
-    const today = new Date();
-    const dateOfBirth = new Date(dateInput.value);
-    const m = today.getMonth() - dob.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-        age--;
-    }
-    let age = today.getFullYear() - dateOfBirth.getFullYear();
-    
-    if (age < 16) {
-        dateInput.setCustomValidity("You must be at least 16 years old.");
-    } else {
-        dateInput.setCustomValidity("");
-    }
-}
+    const birthDate = document.getElementById("date");
+    function checkAgeValidity() {
+        console.log("Hola");
+        const today = new Date();
+        const dateOfBirth = new Date(birthDate.value);
+        let age = today.getFullYear() - dateOfBirth.getFullYear();
+        const m = today.getMonth() - dateOfBirth.getMonth();
 
-// Attach the checkAgeValidity function to the input event of the date input field
-age.addEventListener("input", checkAgeValidity);
+        if (m < 0 || (m === 0 && today.getDate() < dateOfBirth.getDate())) {
+            age--;
+        }
 
-form.addEventListener("submit", function (event) {
-	checkPasswordValidity();
-	if (!this.checkValidity()) {
-		this.reportValidity();
-		event.preventDefault();
-	} 
-}, false);
+        if (age < 16) {
+        	birthDate.setCustomValidity("You must be at least 16 years old.");
+        } else {
+        	birthDate.setCustomValidity("");
+        }
+    }
 
-function validateForm() {
-    var pwd = document.getElementById('pwd').value;
-    var pwdc = document.getElementById('pwdc').value;
-    var dob = document.getElementById('date').value;
-    var today = new Date();
-    var age = today.getFullYear() - dob.getFullYear();
-    var m = today.getMonth() - dob.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-        age--;
-    }
-    if (age >= 16 && pwd == pwdc) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    birthDate.addEventListener("input", checkAgeValidity, false);
+
+    form.addEventListener("submit", function(event) {
+        checkPasswordValidity();
+        checkAgeValidity();
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            event.preventDefault();
+        }
+    }, false);
 </script>
 
 </body>
