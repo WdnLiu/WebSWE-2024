@@ -163,7 +163,7 @@ public class User implements java.io.Serializable {
         Period agePeriod = Period.between(date, curr);
         int age = agePeriod.getYears();
         if (age < 16) {
-            errors.put("birthday", "You must be over 16!");
+            errors.put("born", "You must be over 16!");
         } else {
         	this.born = born;
         }
