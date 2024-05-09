@@ -28,8 +28,8 @@ public class UserManager {
 		PreparedStatement statement = null;
 		try {
 			statement = db.prepareStatement(query);
-			statement.setString(1,user.getUser());
-			statement.setString(2,user.getMail());
+			statement.setString(1,user.getName());
+			statement.setString(2,user.getUser());
 			statement.setString(3,user.getMail());
 			statement.setString(4,user.getBorn());
 			statement.setString(5,user.getPwd());

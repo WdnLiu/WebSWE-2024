@@ -55,7 +55,7 @@ public class User implements java.io.Serializable {
 			query.setString(1, user);
 			ResultSet result = query.executeQuery();
 			if (result.next()) {
-				errors.put("user", "Name already exists.");
+				errors.put("user", "Userame already used.");
 				System.out.println("Name already exists.");
 			}
 			else {
@@ -81,7 +81,7 @@ public class User implements java.io.Serializable {
 				query.setString(1, mail);
 				ResultSet result = query.executeQuery();
 				if (result.next()) {
-					errors.put("user", "Mail already exists.");
+					errors.put("mail", "Mail already used.");
 					System.out.println("Mail already exists.");
 				}
 				else {
@@ -163,7 +163,7 @@ public class User implements java.io.Serializable {
         Period agePeriod = Period.between(date, curr);
         int age = agePeriod.getYears();
         if (age < 16) {
-            errors.put("birthday", "Your age is not allowed");
+            errors.put("birthday", "You must be over 16!");
         } else {
         	this.born = born;
         }

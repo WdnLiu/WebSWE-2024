@@ -5,46 +5,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title> Form </title>
-<style>
-input:valid {
-	border-left: 4px solid green;
-}
-input:invalid {
-	border-left: 4px solid red;
-}
-</style>
-</head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        input:valid {
+            border-left: 4px solid green;
+        }
+        input:invalid {
+            border-left: 4px solid red;
+        }
+    </style>
+  </head>
 <body>
 
-<ul>
-	<c:forEach var="error" items="${model.errors}">
-	    <li> ${error.key} : ${error.value} </li>
-	</c:forEach>
-</ul>
-
+<div class="container position-absolute top-50 start-50 translate-middle">
+<div class="container border border-5 rounded-5">
+<div class="m-5">
+    <h2>Fill the form to Register!</h2>Aesthetic from BootstrapCSS Framework<br><br>
 <form action="RegisterController" method="POST" onsubmit="return validateForm()">
-  <label for="name"> Name:</label><br/>
-  <input type="text" id="name" name="name" placeholder="Name" value="${model.name}" required><br/>
-  <label for="user"> UserName (cannot repeat):</label><br/>
-  <input type="text" id="user" name="user" placeholder="UserName" value="${model.user}" required><br/>
-  <label for="mail"> Mail (cannot repeat):</label><br/>
-  <input type="email" id="mail" name="mail" placeholder="Mail" value="${model.mail}" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+"><br/>
-  <label for="birth"> Date of Birth (Age > 16):</label><br/>
-  <input type="date" id="date" name="born" value="${model.born}" required><br/>
-  <label for="pwd1"> Password: </label><br/>
-  <input type="password" id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{6,}$"><br/>
-  <label for="pwd2"> Confirm Password: </label><br/>
-  <input type="password" id="pwdc" placeholder="Confirm Password" value="${model.pwd}" required><br/><br/>
-  <label for="favSinger"> Favourite Singer:</label><br/>
-  <input type="text" id="favSinger" name="favSinger" placeholder="favSinger" value="${model.favSinger}"><br/>
-  <label for="favSong"> Favourite Song:</label><br/>
-  <input type="text" id="favSong" name="favSong" placeholder="favSong" value="${model.favSong}"><br/>
-  <label for="pref"> Genre Preference:</label><br/>
-  <input type="text" id="pref" name="pref" placeholder="pref" value="${model.pref}"><br/><br/>
-  <button> Submit </button>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="mb-6">
+                <label for="user" class="form-label">Username (cannot repeat):</label>
+                <div class="input-group">
+                    
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control" id="user" name="user" placeholder="UserName" value="${model.user}" required><br/>
+                </div>
+				<c:if test="${model.errors['user'] != null}">
+                    <div class="text-danger">${model.errors['user']}</div>
+                </c:if>
+            </div>
+        </div>
+
+        <div class="col-md">
+            <label for="name" class="form-label"> Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${model.name}" required>
+        </div>
+        <div class="col-md-3">
+            <label for="birth"class="form-label"> Date of Birth:</label>
+            <input type="date" id="date" class="form-control"name="born" value="${model.born}" required>
+        	<c:if test="${model.errors['born'] != null}">
+                <div class="text-danger">${model.errors['born']}</div>
+            </c:if>
+        </div>
+        <div class="mb-3">
+            <label for="mail"class="form-label"> Mail (cannot repeat):</label>
+            <input type="email" class="form-control" id="mail" name="mail" placeholder="Mail" value="${model.mail}" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+">
+        	<c:if test="${model.errors['mail'] != null}">
+                <div class="text-danger">${model.errors['mail']}</div>
+            </c:if>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col-md">
+            <label for="pwd1"class="form-label"> Password: </label>
+            <input type="password" class="form-control"id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{6,}$"><br/>
+        </div>
+        <div class="col-md">
+            <label for="pwd2"class="form-label"> Confirm Password: </label>
+            <input type="password" class="form-control"id="pwdc" placeholder="Confirm Password" value="${model.pwd}" required><br/><br/>
+        	<c:if test="${model.errors['pwd'] != null}">
+                <div class="text-danger">${model.errors['pwd']}</div>
+            </c:if>
+        </div>
+    </div>
+    <h4>Optional Fields:</h4>
+    <div class="row g-3">
+        <div class="col-md">
+            <label for="favSinger"class="form-label"> Favourite Singer:</label>
+            <input type="text" id="favSinger"class="form-control" name="favSinger" placeholder="favSinger" value="${model.favSinger}">
+        </div>
+        <div class="col-md">
+            <label for="favSong"class="form-label"> Favourite Song:</label>
+            <input type="text" id="favSong"class="form-control" name="favSong" placeholder="favSong" value="${model.favSong}">
+        </div>
+        <div class="col-md">
+            <label for="pref" class="form-label"> Genre Preference:</label>
+            <input type="text" id="pref" class="form-control"name="pref" placeholder="pref" value="${model.pref}">
+        </div>
+    <div class="mb-3">
+        <br>
+        <button class="btn btn-primary"> Submit </button>
+    </div>
+    </div>
 </form>
+</div>
+</div>
+</div>
 <script>
 
 	const form = document.getElementById("regform");
