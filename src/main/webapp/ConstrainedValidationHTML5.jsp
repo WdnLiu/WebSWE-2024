@@ -16,12 +16,17 @@
         input:invalid {
             border-left: 4px solid red;
         }
+        body{
+	        background:
+
+	        url("resources/bg.jpg");
+      }
     </style>
   </head>
 <body>
 
 <div class="container position-absolute top-50 start-50 translate-middle">
-<div class="container border border-5 rounded-5">
+<div class="container border border-5 rounded-5 bg-light">
 <div class="m-5">
     <h2>Fill the form to Register!</h2>Aesthetic from BootstrapCSS Framework<br><br>
 <form action="RegisterController" method="POST" onsubmit="return validateForm()">
@@ -59,7 +64,7 @@
             </c:if>
         </div>
     </div>
-    <div class="row g-2">
+    <div class="row g-3">
         <div class="col-md">
             <label for="pwd1"class="form-label"> Password: </label>
             <input type="password" class="form-control"id="pwd" name="pwd" placeholder="Password" value="${model.pwd}" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z@$!%*?&\d]{6,}$"><br/>
