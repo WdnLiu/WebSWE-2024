@@ -8,6 +8,7 @@
 <title> Registration Done </title>
 </head>
 <body>
-User ${model.user} has been registered correctly.
+User ${model.user} has been registered correctly. <br/>
+${model.allUsers}
 </body>
 </html>

@@ -4,22 +4,13 @@ package models;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import utils.DBManager;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
 
 public class User implements java.io.Serializable {
-	
-	/*
-	 CREATE TABLE `users` (
-  		`usr` varchar(255) NOT NULL,
-  		`mail` varchar(255) NOT NULL,
-  		`pwd` varchar(255) NOT NULL,
-  		PRIMARY KEY (`usr`),
-  		UNIQUE KEY `mail` (`mail`)
-	 ); 
-	*/
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -147,7 +138,7 @@ public class User implements java.io.Serializable {
 		if (matcher.matches()) {
 			this.pwd = pwd;
 		} else {
-			errors.put("password","Error in the password.");
+			errors.put("pwd","Error in the password.");
 			System.out.println(mail);
 		}
 		System.out.println(pwd);
@@ -169,6 +160,53 @@ public class User implements java.io.Serializable {
         }
         System.out.println(born);
     }
+	
+    
+	public String getAllUsers() {
+		String returnValue = "";
+		try {
+			returnValue += "<table border='1'>"
+					+ "<tr><th>nom</th>"
+					+ "<th>usuari</th>"
+					+ "<th>mail</th>"
+					+ "<th>data</th>"
+					+ "<th>contrasenya</th>"
+					+ "<th>cantant</th>"
+					+ "<th>canço</th>"
+					+ "<th>genere</th>"
+					+ "</tr>";
+			PreparedStatement query = database.prepareStatement("SELECT * FROM users;");
+			ResultSet result = query.executeQuery();
+			while (result.next()) {
+                String nom = result.getString("name"); 
+                String usuari = result.getString("usr");
+                String email = result.getString("mail");
+                String birthdate = result.getString("date");
+                String pass = result.getString("pwd");
+                String favsing = result.getString("fav_singer");
+                String favsong = result.getString("fav_song");
+                String genre = result.getString("pref_genre");
+
+                
+                returnValue += "<tr>"
+                		+ "<td>" + nom + "</td>" 
+                		+ "<td>" + usuari + "</td>"
+                		+ "<td>" + email + "</td>"
+                		+ "<td>" + birthdate + "</td>"
+                		+ "<td>" + pass + "</td>"
+                		+ "<td>" + favsing + "</td>"
+                		+ "<td>" + favsong + "</td>"
+                		+ "<td>" + genre + "</td>"
+                		+ "</tr>";
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		returnValue+= "</table>";
+		return returnValue;
+	}
+    
 	
 	public HashMap<String, String> getErrors() {
 		return this.errors;
