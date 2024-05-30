@@ -14,6 +14,7 @@ public class User implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private int id;
 	private String user = "";
 	private String name = "";
 	private String pwd = "";
@@ -40,22 +41,64 @@ public class User implements java.io.Serializable {
 	public void setUser(String user) {
 		/* We can simulate that a user with the same name exists in our DB and mark error[0] as true  */
 		/* TODO: validate logical specifications and check uniquiness in DB */
-		
-		try {
-			PreparedStatement query = database.prepareStatement("SELECT * FROM users WHERE usr = ?;");
-			query.setString(1, user);
-			ResultSet result = query.executeQuery();
-			if (result.next()) {
-				errors.put("user", "Userame already used.");
-				System.out.println("Name already exists.");
-			}
-			else {
-				System.out.println(user);
-				this.user = user;
-			}
+		String user_lower=user.toLowerCase();
+		String regex = "^[a-z0-9]{1,255}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(user_lower);
+        try {
+    		if (matcher.matches()) {
+    			PreparedStatement q = database.prepareStatement("SELECT * FROM Users WHERE (usr = ?);");
+    			q.setString(1, user_lower);
+    			ResultSet result = q.executeQuery();
+    			if (result.next()) errors.put("user","User already exists");
+    			else this.user = user_lower;
+    		} else {
+    			errors.put("user","Error in the username.");
+    			System.out.println("Error in the username:");
+    		}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(user_lower);
+	}
+	
+	public void setUserLogin(String userLogin) {
+		/* We can simulate that a user with the same name exists in our DB and mark error[0] as true  */
+		/* TODO: validate logical specifications and check uniquiness in DB */
+		String user_lower=userLogin.toLowerCase();
+		String regex = "^[a-z0-9]{1,255}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(user_lower);
+        try {
+    		if (matcher.matches()) {
+    			PreparedStatement q = database.prepareStatement("SELECT * FROM Users WHERE (usr = ?);");
+    			q.setString(1, user_lower);
+    			ResultSet result = q.executeQuery();
+    			if (result.next()) {
+    				this.user = user_lower;
+    				this.name = result.getString("name");
+    				errors.put("login","Login Failed: Password is incorrect");
+    			}
+    			else errors.put("userLogin","User does not exist"); 
+    			System.out.println("User does not exist:");
+    		} else {
+    			errors.put("userLogin","Error in the username.");
+    			System.out.println("Error in the username:");
+    		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		this.user = user_lower;
+		System.out.println(this.user);
+		
+	}
+	
+	public String getUserLogin() {
+		return user;
+	}
+	
+	public void forceSetUser(String user) {
+		this.user = user;
 	}
 	
 	public String getMail() {
@@ -67,36 +110,40 @@ public class User implements java.io.Serializable {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(mail);
 		if (matcher.matches()) {
-			try {
-				PreparedStatement query = database.prepareStatement("SELECT * FROM users WHERE mail = ?;");
-				query.setString(1, mail);
-				ResultSet result = query.executeQuery();
-				if (result.next()) {
-					errors.put("mail", "Mail already used.");
-					System.out.println("Mail already exists.");
-				}
-				else {
-					System.out.println(user);
-					this.mail = mail;
-				}
+	        try {
+				PreparedStatement q = database.prepareStatement("SELECT * FROM Users WHERE mail = ?;");
+				q.setString(1, mail);
+				ResultSet result = q.executeQuery();
+				if (result.next()) errors.put("mail","Mail already used!");
+				else this.mail = mail;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(mail);
 		} else {
 			errors.put("mail","Error in the mail.");
-			System.out.println(mail);
+			System.out.println("Error in the mail:");
 		}
+		System.out.println(mail);
 	}
-
+	public void forceSetMail(String mail) {
+		this.mail = mail;
+	}
 
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		String regex = "^.{1,255}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(name);
+		if (matcher.matches()) {
+			this.name = name;
+		} else {
+			errors.put("name","Length of the name should be below 255.");
+			System.out.println("Error in the name:");
+		}
+		System.out.println(name);
 	}
 
 	public String getPref() {
@@ -139,7 +186,7 @@ public class User implements java.io.Serializable {
 			this.pwd = pwd;
 		} else {
 			errors.put("pwd","Error in the password.");
-			System.out.println(mail);
+			System.out.println("Error in the password:");
 		}
 		System.out.println(pwd);
 	}
@@ -155,6 +202,7 @@ public class User implements java.io.Serializable {
         int age = agePeriod.getYears();
         if (age < 16) {
             errors.put("born", "You must be over 16!");
+            System.out.println("Must be over 16:");
         } else {
         	this.born = born;
         }
@@ -175,7 +223,7 @@ public class User implements java.io.Serializable {
 					+ "<th>canço</th>"
 					+ "<th>genere</th>"
 					+ "</tr>";
-			PreparedStatement query = database.prepareStatement("SELECT * FROM users;");
+			PreparedStatement query = database.prepareStatement("SELECT * FROM Users;");
 			ResultSet result = query.executeQuery();
 			while (result.next()) {
                 String nom = result.getString("name"); 
@@ -210,6 +258,18 @@ public class User implements java.io.Serializable {
 	
 	public HashMap<String, String> getErrors() {
 		return this.errors;
+	}
+	
+	public void addErrors(String att, String err) {
+		errors.put(att,err);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 		
 }

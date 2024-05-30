@@ -13,7 +13,7 @@ public class DBManager {
 		String password= "prac";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection=DriverManager.getConnection("jdbc:mysql://localhost/lab2?serverTimezone=UTC&user="+user+"&password="+password);
+			connection=DriverManager.getConnection("jdbc:mysql://localhost/SWeb?serverTimezone=UTC&user="+user+"&password="+password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -24,12 +24,12 @@ public class DBManager {
 	public PreparedStatement prepareStatement(String query) {
 		
 		PreparedStatement statement = null;
-		
 		try {
 			 statement = connection.prepareStatement(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return statement;
 	}
 	

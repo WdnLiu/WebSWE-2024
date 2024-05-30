@@ -1,6 +1,5 @@
 package controllers;
 
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -10,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -29,40 +29,51 @@ public class RegisterController extends HttpServlet {
     public RegisterController() {
         super();
     }
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		User user = new User();
-		UserManager manager = new UserManager();
 
-		String view = "ConstrainedValidationHTML5.jsp";
-		//String view = "ConstrainedValidationJSSimple.jsp";
-		//String view = "ConstrainedValidationJSComplex.jsp";
-		//String view = "ConstrainedValidationParsley.jsp";
+	   System.out.print("RegisterController: ");
+	   
+	   User user = new User();
+	   UserManager manager = new UserManager();
+	   String view = "ViewRegisterForm.jsp";
 		
-		try {
-			BeanUtils.populate(user,request.getParameterMap());
-			if (manager.isComplete(user)) {
-				manager.addUser(user);
-				manager.finalize();
-				view = "Registered.jsp";
-		}
-				
-		} catch (IllegalAccessException | InvocationTargetException e) {
+	   try {
+		   
+		   BeanUtils.populate(user, request.getParameterMap());
+		   
+		   if (manager.isRegisterComplete(user) && manager.checkUserNotRepeat(user)) {
+			   manager.addUser(user);
+			   manager.finalize();
+			   System.out.println(" user ok, forwarding to ViewLoginForm");
+			   HttpSession session = request.getSession();
+			   session.setAttribute("user",user.getUser());
+			   session.setAttribute("name",user.getName());
+			   session.setAttribute("login",user);
+			   view = "ViewLoginDone.jsp";
+		   } 
+		   else {
+			   System.out.println(" forwarding to ViewRegisterForm");
+			   request.setAttribute("user",user);
+			  
+		   }
+		   RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		   dispatcher.forward(request, response);
+	   
+	   } catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
-		}
-
-		request.setAttribute("model", user);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);
+	   }
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
