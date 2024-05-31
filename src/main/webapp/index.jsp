@@ -24,7 +24,7 @@ $(document).ready(function(){
 	/* Add tweet */
 	$(document).on("click","#addTweet",function(event){
 		$.post( "AddTweet", { content: $("#tweetContent").text()}, function(event) {
-			$("#content").load("GetOwnTimeline");		
+			$("#content").load("ViewTweetsController");		
 		});
 		event.preventDefault();
 	});
@@ -32,7 +32,7 @@ $(document).ready(function(){
 	$(document).on("click",".delTweet",function(event){
 		var tweet = $(this).parent();
 		$.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
-			$("#content").load("GetOwnTimeline");				
+			$("#content").load("ViewTweetsController");				
 		});
 		event.preventDefault();
 	});
@@ -66,18 +66,34 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-
- 	<!-- Begin Navigation -->
- 	<div class="w3-bar w3-indigo" id="navigation">
+	
+	 	<!-- Begin Navigation -->
+ 	<div class="w3-indigo w3-bar" id="navigation">
     	<jsp:include page="${menu}" />
  	</div>
  	<!-- End Navigation -->
  
-	<!-- Begin Content -->
-	<div class="w3-container w3-card-4 w3-padding-24" id="content">
-		<jsp:include page="${content}" />
+ 	<!-- Begin Content -->
+	<div class="w3-row-padding">
+	 	<!-- Left Column -->
+		<div class="w3-container w3-col m3 w3-hide-small">
+			<div id="rcolumn">
+				<p></p>
+			</div>
+		</div>
+		<!-- Middle Column -->	
+		<div class="e3-container w3-col m6">
+			<div id="content">
+				<jsp:include page="${content}" />
+			</div>
+		</div>
+		<!-- Right Column -->
+		<div class="w3-container w3-col m3 w3-hide-small">
+			<div id="lcolumn">
+				<p></p>
+			</div>
+		</div>
 	</div>
-	<!-- End Content -->
 	
 	<script>
 		function stack() {
