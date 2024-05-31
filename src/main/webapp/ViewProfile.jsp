@@ -3,7 +3,7 @@
 <%@ page import="models.User" %>
 
 <%
-    User user = (User) session.getAttribute("userInfo");
+    User user = (User) session.getAttribute("login");
     if (user == null) {
         // Datos de ejemplo, este código no debería verse nunca
         user = new User();

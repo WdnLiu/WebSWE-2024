@@ -64,8 +64,9 @@ public class ChatServer {
         if (clients.containsKey(receiver)) {
             clients.get(receiver).getBasicRemote().sendText(sender + ": " + messageContent);
         }
+        session.getBasicRemote().sendText(sender + ": " + messageContent);
     }
-
+    
     @OnClose
     public void onClose(Session session, @PathParam("username") String username, @PathParam("dest") String dest) throws IOException {
         clients.remove(username);
