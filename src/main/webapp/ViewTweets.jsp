@@ -17,15 +17,14 @@
                     <h4>${tweet.title}</h4><br>
                     By ${tweet.user.name} <div class="w3-text-grey">@${tweet.user.user}</div>
                     <hr class="w3-clear">
+                    <c:if test="${tweet.image_path != null}">
+                        <div class="w3-row-padding" style="margin:0 -16px">
+                            <div class="w3-center w3-m4">
+                                <img src="${tweet.image_path}" style="width:50%" alt="Image 1" class="w3-margin-bottom">
+                            </div>
+                        </div>
+                    </c:if>
                     <p>${tweet.content}</p>
-                    <div class="w3-row-padding" style="margin:0 -16px">
-                        <div class="w3-half">
-                            <img src="/path/to/image1.jpg" style="width:100%" alt="Image 1" class="w3-margin-bottom">
-                        </div>
-                        <div class="w3-half">
-                            <img src="/path/to/image2.jpg" style="width:100%" alt="Image 2" class="w3-margin-bottom">
-                        </div>
-                    </div>
                     <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button>
                     <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>
                 </div>

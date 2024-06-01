@@ -12,6 +12,7 @@ public class Tweet implements java.io.Serializable {
 	 private Timestamp postDateTime;
 	 private String title;
 	 private String content;
+	 private String image_path;
 
 	 public Tweet() {
 	 }
@@ -67,6 +68,14 @@ public class Tweet implements java.io.Serializable {
 
 	public void setPid(int pid) {
 		this.pid = pid;
+	}
+
+	public String getImage_path() {
+		return image_path;
+	}
+
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
 	}
 
 }

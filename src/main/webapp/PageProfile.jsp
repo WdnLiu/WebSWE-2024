@@ -10,15 +10,14 @@
     $('#iterator').load('ViewOwnTweetsController');
  });
 </script>
-    <!-- Input Column -->
-<div class="w3-col center"><p></div>
-<div class="w3-container w3-padding w3-row-padding w3-card-4 w3-padding-24 center w3-col">
-  <h6 class="w3-opacity"> ${sessionScope.login.name}, what are you thinking? </h6>
-  <p id="tweetContent" contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-  <button id="addTweet" type="button" class="w3-button w3-theme"><i class="fa fa-pencil" ></i> Post</button> 
+<!-- Input Column -->
+<div class="w3-container w3-card w3-round w3-white w3-section">
+	<h6 class="w3-opacity"> ${user.name}, what are you thinking? </h6>
+	<p id="tweetContent" contenteditable="true" class="w3-border w3-padding"> </p>
+	<input type="file" id="tweetFile" name="file" accept="image/png, image/jpeg, image/gif"/><br/>
+	<button id="addTweet" type="button" class="w3-button w3-theme w3-section"><i class="fa fa-pencil"></i> &nbsp;Post</button> 
 </div>
+
 <br/>
 
-<div id="iterator">
-</div>
- 
+<div id="iterator"></div>

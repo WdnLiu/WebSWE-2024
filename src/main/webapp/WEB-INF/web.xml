@@ -21,5 +21,4 @@
     <listener>
         <listener-class>controllers.WebSocketConfig</listener-class>
     </listener>
-
 </web-app>

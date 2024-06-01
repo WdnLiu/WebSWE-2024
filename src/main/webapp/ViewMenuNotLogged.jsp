@@ -23,7 +23,7 @@
   </div>
 
   <div class="w3-half">
-    <input type="text" class="menu w3-border-0 w3-padding" placeholder="Search..."" style="width:100%">
+    <input type="text" class="menu w3-border-0 w3-padding" placeholder="Search..." style="width:100%">
   </div>
 
   <div class="w3-quarter">

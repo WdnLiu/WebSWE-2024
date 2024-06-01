@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript">
 $(document).ready(function(){
-	
+    
 	$.ajaxSetup({ cache: false }); //Avoids Internet Explorer caching!	
 	$(document).on("click",".menu",function(event) {
 		$('#content').load($(this).attr('id'));
@@ -21,40 +21,75 @@ $(document).ready(function(){
 		$('#content').load($(this).attr('action'),$(this).serialize());
 	    event.preventDefault();
 	});
+	
 	/* Add tweet */
+	
 	$(document).on("click","#addTweet",function(event){
-		$.post( "AddTweet", { content: $("#tweetContent").text()}, function(event) {
-			$("#content").load("ProfilePageController");		
-		});
-		event.preventDefault();
+	    event.preventDefault();
+
+	    $.post( "AddTweet", 
+	        { content: $("#tweetContent").text() },
+	        function(event) {
+	            $("#content").load("ProfilePageController");
+
+	            var data = new FormData();
+	            data.append("content", $("#tweetContent").text());
+	            data.append("file", $("#tweetFile")[0].files[0]);
+
+	            $.ajax({
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                url: "AddPhoto",
+	                data: data,
+	                processData: false, // prevent jQuery from automatically transforming the data into a query string
+	                contentType: false,
+	                cache: false,
+	                timeout: 600000,
+	                success: function (data) {
+	                    console.log("SUCCESS : ", data);
+	                    $("#content").load("ProfilePageController");
+	                },
+	                error: function (e) {
+	                    console.log("ERROR : ", e);
+	                }
+	            });
+	        }
+	    );
 	});
-	/* Delete tweet */
-	$(document).on("click",".delTweet",function(event){
-		var tweet = $(this).parent();
-		$.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
-			$("#content").load("ViewTweetsController");				
-		});
-		event.preventDefault();
-	});
-	/* Follow user */
-	$(document).on("click",".followUser",function(event){
-		var user = $(this).parent();
-		$.post( "FollowUser", { id: $(this).parent().attr("id") }, function(event) { 
-			$("#content").load("ProfilePageController");
-			$("#lcolumn").load("GetNotFollowedUsers");
-		});
-		event.preventDefault();
-	});
-	/* UnFollow user */
-	$(document).on("click",".unfollowUser",function(event) {
-		var user = $(this).parent();
-		$.post( "UnFollowUser", { id: $(this).parent().attr("id") }, function(event) {
-			$("#content").load("ViewTweetsController");
-			$("#lcolumn").load("GetFollowedUsers");
-		});
-		event.preventDefault();
-	});
+
+
+	
+	
+    /* Delete tweet */
+    $(document).on("click",".delTweet",function(event){
+        var tweet = $(this).parent();
+        $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
+            $("#content").load("ViewTweetsController");                
+        });
+        event.preventDefault();
+    });
+    
+    /* Follow user */
+    $(document).on("click",".followUser",function(event){
+        var user = $(this).parent();
+        $.post( "FollowUser", { id: $(this).parent().attr("id") }, function(event) { 
+            $("#content").load("ProfilePageController");
+            $("#lcolumn").load("GetNotFollowedUsers");
+        });
+        event.preventDefault();
+    });
+    
+    /* UnFollow user */
+    $(document).on("click",".unfollowUser",function(event) {
+        var user = $(this).parent();
+        $.post( "UnFollowUser", { id: $(this).parent().attr("id") }, function(event) {
+            $("#content").load("ViewTweetsController");
+            $("#lcolumn").load("GetFollowedUsers");
+        });
+        event.preventDefault();
+    });
 });
+
 </script>
 <style>
 	input:valid {
