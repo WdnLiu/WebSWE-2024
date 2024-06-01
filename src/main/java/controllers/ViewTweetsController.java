@@ -43,9 +43,15 @@ public class ViewTweetsController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 
-		if (session.getAttribute("user")!=null) {
+		User user = (User) session.getAttribute("login");
+
+		if (session != null || user != null) {
 			System.out.println("forwarding to ViewTweets");
 			view = "ViewTweets.jsp";
+
+			ManageTweets tweetManager = new ManageTweets();
+			tweets = tweetManager.getTweetsRegistered(user.getId(),0,4);
+			tweetManager.finalize();
 		}
 		else {
 			
