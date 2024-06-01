@@ -18,28 +18,23 @@ public class ViewProfileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("user");
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("login");
         String view = "ViewProfile.jsp";
-        if (username != null) {
+        if (user != null) {
             UserManager userManager = new UserManager();
-            User user = userManager.getUserByUsername(username);
-        	if(user != null) {
-        		System.out.println("forwarding to ViewProfile.jsp");
-                System.out.println("User Details:");
-                System.out.println("ID: " + user.getId());
-                System.out.println("Name: " + user.getName());
-                System.out.println("Username: " + user.getUser());
-                System.out.println("Email: " + user.getMail());
-                System.out.println("Date of Birth: " + user.getBorn());
-                System.out.println("Favorite Singer: " + user.getFavSinger());
-                System.out.println("Favorite Song: " + user.getFavSong());
-                System.out.println("Preferred Genre: " + user.getPref());
-        		request.setAttribute("userInfo", user);
-        	}else {
-                view = "ViewLoginForm.jsp";
-    			System.out.println("forwarding to ViewLoginForm.jsp");
-        	}
+    		System.out.println("forwarding to ViewProfile.jsp");
+            System.out.println("User Details:");
+            System.out.println("ID: " + user.getId());
+            System.out.println("Name: " + user.getName());
+            System.out.println("Username: " + user.getUser());
+            System.out.println("Email: " + user.getMail());
+            System.out.println("Date of Birth: " + user.getBorn());
+            System.out.println("Favorite Singer: " + user.getFavSinger());
+            System.out.println("Favorite Song: " + user.getFavSong());
+            System.out.println("Preferred Genre: " + user.getPref());
+    		request.setAttribute("userInfo", user);
+
         } else {
             view = "ViewLoginForm.jsp";
 			System.out.println("forwarding to ViewLoginForm.jsp");

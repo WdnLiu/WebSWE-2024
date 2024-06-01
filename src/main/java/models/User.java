@@ -59,7 +59,7 @@ public class User implements java.io.Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("user: " + user_lower);
+		//System.out.println("user: " + user_lower);
 	}
 	
 	public void setUserLogin(String userLogin) {
@@ -89,7 +89,7 @@ public class User implements java.io.Serializable {
 			e.printStackTrace();
 		}
 		this.user = user_lower;
-		System.out.println(this.user);
+		//System.out.println(this.user);
 		
 	}
 	
@@ -123,7 +123,7 @@ public class User implements java.io.Serializable {
 			errors.put("mail","Error in the mail.");
 			System.out.println("Error in the mail:");
 		}
-		System.out.println(mail);
+		//System.out.println(mail);
 	}
 	public void forceSetMail(String mail) {
 		this.mail = mail;
@@ -143,7 +143,7 @@ public class User implements java.io.Serializable {
 			errors.put("name","Length of the name should be below 255.");
 			System.out.println("Error in the name:");
 		}
-		System.out.println(name);
+		//System.out.println(name);
 	}
 
 	public String getPref() {
@@ -188,7 +188,7 @@ public class User implements java.io.Serializable {
 			errors.put("pwd","Error in the password.");
 			System.out.println("Error in the password:");
 		}
-		System.out.println(pwd);
+		//System.out.println(pwd);
 	}
 
 	public String getBorn() {
@@ -206,7 +206,7 @@ public class User implements java.io.Serializable {
         } else {
         	this.born = born;
         }
-        System.out.println(born);
+        //System.out.println(born);
     }
 	
     

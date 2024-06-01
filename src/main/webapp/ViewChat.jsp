@@ -1,18 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="models.User" %>
 
-<script type="text/javascript">
- $(document).ready(function(){
-    $('#navigation').load('MainController');
-    $('#lcolumn').load('Empty');
-    $('#rcolumn').load('Empty');
-    $('#iterator').load('Empty');
- });
-</script>
 <div class="w3-container w3-card w3-round w3-white w3-section w3-center">
 	<c:choose>
-	    <c:when test="${not empty sessionScope.login.name}">
+	    <c:when test="${not empty usuario.user}">
 	    	<div class="w3-container w3-white w3-section w3-center">
+	    		Welcome, ${usuario.user} <br/>
 		        <input type="text" id="receiverInput" placeholder="Enter receiver's username...">
 		        <button onclick="connectWebSocket()">Connect</button>
 		        <input type="text" id="messageInput" placeholder="Type a message...">
@@ -21,7 +15,7 @@
 			</div>
 			
 	        <script>
-	            let username = '${sessionScope.login.user}';
+	            let username = '${usuario.user}';
 	            let receiverUsername;
 	            let contextPath = '<%= request.getContextPath() %>';
 	            let socket;

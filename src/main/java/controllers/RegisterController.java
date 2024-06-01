@@ -50,8 +50,6 @@ public class RegisterController extends HttpServlet {
 			   manager.finalize();
 			   System.out.println(" user ok, forwarding to ViewLoginForm");
 			   HttpSession session = request.getSession();
-			   session.setAttribute("user",user.getUser());
-			   session.setAttribute("name",user.getName());
 			   session.setAttribute("login",user);
 			   view = "ViewLoginDone.jsp";
 		   } 

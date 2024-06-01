@@ -6,7 +6,7 @@
 <div class = "w3-hide-large w3-hide-small">
 	<a class="menu w3-bar-item w3-button" id="ViewPageController" href="#"> View Tweets </a>
 	<a class="menu w3-bar-item w3-button" id="ProfilePageController" href="ProfilePageController"> View Profile </a>
-	<a class="menu w3-bar-item w3-button" id="ViewChatController" href="ViewChatController"> View Chat</a>
+	<a class="menu w3-bar-item w3-button" id="PageChatController" href="PageChatController"> View Chat</a>
 	<div class="w3-third">
     	<div class="w3-bar">
 			<input type="text" class="menu w3-border-0 w3-padding" placeholder="Search..." style="width:80%">
@@ -22,7 +22,7 @@
       <a class="w3-bar-item w3-button" id="LogoutController" href="MainController"> <i class="fa fa-home" aria-hidden="true"></i> </a>
       <a class="menu w3-bar-item w3-button" id="ViewPageController" href="#"> View Tweets </a>
       <a class="menu w3-bar-item w3-button" id="ProfilePageController" href="ProfilePageController"> View Profile </a>
-      <a class="menu w3-bar-item w3-button" id="ViewChatController" href="ViewChatController"> View Chat</a>
+      <a class="menu w3-bar-item w3-button" id="PageChatController" href="PageChatController"> View Chat</a>
     </div>
   </div>
 

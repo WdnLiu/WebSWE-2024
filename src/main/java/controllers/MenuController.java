@@ -35,7 +35,7 @@ public class MenuController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("user")!=null) {
+		if (session.getAttribute("login")!=null) {
 		
 			System.out.println("forwarding to ViewMenuLogged");
 			view = "ViewMenuLogged.jsp";

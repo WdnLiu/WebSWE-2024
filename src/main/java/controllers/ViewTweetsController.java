@@ -41,7 +41,7 @@ public class ViewTweetsController extends HttpServlet {
 		List<Tweet> tweets = Collections.emptyList();
 		System.out.print("ViewTweetsController: ");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 
 		User user = (User) session.getAttribute("login");
 		if (user != null) {

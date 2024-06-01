@@ -32,10 +32,10 @@ public class ViewPageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String view = "ViewPage.jsp"; 
+		String view = "PageTweets.jsp"; 
 		
 		
-		System.out.print("ViewPageController: Forwarding to ViewPage.jsp");
+		System.out.print("ViewPageController: Forwarding to PageTweets.jsp");
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

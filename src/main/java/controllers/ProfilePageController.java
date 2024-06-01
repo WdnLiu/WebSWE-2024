@@ -37,11 +37,11 @@ public class ProfilePageController extends HttpServlet {
 		
 		System.out.print("ProfilePageController: ");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 
 		if (session.getAttribute("login")!=null) {
-			System.out.println("forwarding to ViewTweets");
-			view = "ProfilePage.jsp";
+			System.out.println("forwarding to PageProfile");
+			view = "PageProfile.jsp";
 		}
 		else {
 			
