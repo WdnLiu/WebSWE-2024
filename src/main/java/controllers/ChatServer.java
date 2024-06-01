@@ -19,7 +19,7 @@ import utils.DBManager;
 public class ChatServer {
     private static Map<String, Session> clients = new ConcurrentHashMap<>();
     private DBManager dbManager = new DBManager();
-
+    
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username, @PathParam("dest") String dest) throws IOException {
         clients.put(username, session);

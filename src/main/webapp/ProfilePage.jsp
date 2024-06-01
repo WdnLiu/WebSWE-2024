@@ -5,7 +5,7 @@
 <script type="text/javascript">
  $(document).ready(function(){
     $('#navigation').load('MenuController');
-    $('#lcolumn').load('ViewProfile');
+    $('#lcolumn').load('GetNotFollowedUsers');
     $('#rcolumn').load('ViewProfileController');
     $('#iterator').load('ViewTweetsController');
  });

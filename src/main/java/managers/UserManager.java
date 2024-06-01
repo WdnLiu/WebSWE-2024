@@ -4,6 +4,9 @@ package managers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.User;
 import utils.DBManager;
@@ -103,6 +106,35 @@ public class UserManager {
         return false;
     }
     
+	public User getUser(Integer id) {
+		String query = "SELECT id, name, usr, mail, date_of_birth, fav_singer, fav_song, pref_genre FROM Users WHERE id = ? ;";
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		User user = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,id);
+			rs = statement.executeQuery();
+			if (rs.next()) {
+				user = new User();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setUser(rs.getString("usr"));
+				user.setMail(rs.getString("mail"));
+				user.setBorn(rs.getString("date_of_birth"));
+				user.setFavSinger(rs.getString("fav_singer"));
+				user.setFavSong(rs.getString("fav_song"));
+				user.setPref(rs.getString("pref_genre"));
+			}
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+    
     
     /*Check if all the fields are filled correctly */
     public boolean isRegisterComplete(User user) {
@@ -124,9 +156,33 @@ public class UserManager {
         return((val != null) && (!val.equals("")));
     }
     
+	// Get all the users
+	public List<User> getUsers(Integer start, Integer end) {
+		 String query = "SELECT id,name FROM Users ORDER BY id ASC LIMIT ?,?;";
+		 PreparedStatement statement = null;
+		 List<User> l = new ArrayList<User>();
+		 try {
+			 statement = db.prepareStatement(query);
+			 statement.setInt(1,start);
+			 statement.setInt(2,end);
+			 ResultSet rs = statement.executeQuery();
+			 while (rs.next()) {
+				 User user = new User();
+				 user.setId(rs.getInt("id"));
+				 user.setName(rs.getString("name"));
+				 l.add(user);
+			 }
+			 rs.close();
+			 statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return  l;
+	}
+    
     public User getUserByUsername(String username) {
         User user = null;
-        String query = "SELECT * FROM Users WHERE usr = ?";
+		String query = "SELECT id, name, usr, mail, date_of_birth, fav_singer, fav_song, pref_genre FROM Users WHERE usr = ?;";
         try {
             PreparedStatement statement = db.prepareStatement(query);
             statement.setString(1, username);
@@ -149,4 +205,63 @@ public class UserManager {
         return user;
     }
     
+    
+	// Follow a user
+	public void followUser(Integer uid, Integer fid) {
+		String query = "INSERT INTO Followers (follower_user_id,followed_user_id) VALUES (?,?)";
+		PreparedStatement statement = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,uid);
+			statement.setInt(2,fid);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Unfollow a user
+	public void unfollowUser(Integer uid, Integer fid) {
+		String query = "DELETE FROM Followers WHERE follower_user_id = ? AND followed_user_id = ?";
+		PreparedStatement statement = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,uid);
+			statement.setInt(2,fid);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
+	public List<User> getNotFollowedUsers(Integer id, Integer start, Integer end) {
+		 String query = "SELECT id,name FROM Users WHERE id NOT IN (SELECT id FROM Users, Followers WHERE follower_user_id = ? AND followed_user_id = id) AND id <> ? ORDER BY name LIMIT ?,?;";
+		 PreparedStatement statement = null;
+		 List<User> l = new ArrayList<User>();
+		 try {
+			 statement = db.prepareStatement(query);
+			 statement.setInt(1,id);
+			 statement.setInt(2, id);
+			 statement.setInt(3,start);
+			 statement.setInt(4,end);
+			 ResultSet rs = statement.executeQuery();
+			 while (rs.next()) {
+				 User user = new User();
+				 user.setId(rs.getInt("id"));
+				 user.setName(rs.getString("name"));
+				 l.add(user);
+			 }
+			 rs.close();
+			 statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return  l;
+	}
 }
