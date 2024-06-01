@@ -1,8 +1,10 @@
 package controllers;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,49 +12,53 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import managers.UserManager;
 import models.User;
 
 /**
- * Servlet implementation class FollowUser
+ * Servlet implementation class GetNotFollowedUsers
  */
-@WebServlet("/FollowUser")
-public class FollowUser extends HttpServlet {
+@WebServlet("/GetFollowedUsers")
+public class GetFollowedUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FollowUser() {
+    public GetFollowedUsers() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User fuser = new User();
-		UserManager userManager = new UserManager();
+		
+		List<User> users = Collections.emptyList();
+		
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("login");
-		
-		try {
-			if (session != null || user != null)
-				BeanUtils.populate(fuser, request.getParameterMap());
-				userManager.followUser(user.getId(),fuser.getId());
-				userManager.finalize();
 
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+		if (session != null || user != null) {
+		
+			UserManager userManager = new UserManager();
+			users = userManager.getFollowedUsers(user.getId(),0,4);
+			userManager.finalize();
+		
 		}
+
+		request.setAttribute("users",users);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewFollowedUsers.jsp"); 
+		dispatcher.forward(request,response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

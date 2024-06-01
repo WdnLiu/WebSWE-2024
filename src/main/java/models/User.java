@@ -59,7 +59,7 @@ public class User implements java.io.Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(user_lower);
+		System.out.println("user: " + user_lower);
 	}
 	
 	public void setUserLogin(String userLogin) {

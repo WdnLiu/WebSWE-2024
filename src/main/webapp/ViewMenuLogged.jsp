@@ -4,7 +4,7 @@
 <a class="w3-bar-item w3-button w3-hide-large" id="LogoutController" href="MainController"> <i class="fa fa-home" aria-hidden="true"></i> </a>
 
 <div class = "w3-hide-large w3-hide-small">
-	<a class="menu w3-bar-item w3-button" id="ViewTweetsController" href="#"> View Tweets </a>
+	<a class="menu w3-bar-item w3-button" id="ViewPageController" href="#"> View Tweets </a>
 	<a class="menu w3-bar-item w3-button" id="ProfilePageController" href="ProfilePageController"> View Profile </a>
 	<a class="menu w3-bar-item w3-button" id="ViewChatController" href="ViewChatController"> View Chat</a>
 	<div class="w3-third">
@@ -20,7 +20,7 @@
   <div class="w3-quarter">
     <div class="w3-bar">
       <a class="w3-bar-item w3-button" id="LogoutController" href="MainController"> <i class="fa fa-home" aria-hidden="true"></i> </a>
-      <a class="menu w3-bar-item w3-button" id="ViewTweetsController" href="#"> View Tweets </a>
+      <a class="menu w3-bar-item w3-button" id="ViewPageController" href="#"> View Tweets </a>
       <a class="menu w3-bar-item w3-button" id="ProfilePageController" href="ProfilePageController"> View Profile </a>
       <a class="menu w3-bar-item w3-button" id="ViewChatController" href="ViewChatController"> View Chat</a>
     </div>

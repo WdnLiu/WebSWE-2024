@@ -15,6 +15,7 @@
                     <img src="/path/to/avatar.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                     <span class="w3-right w3-opacity">1 min</span>
                     <h4>${tweet.title}</h4><br>
+                    <p>By ${tweet.user.name}</p>
                     <hr class="w3-clear">
                     <p>${tweet.content}</p>
                     <div class="w3-row-padding" style="margin:0 -16px">

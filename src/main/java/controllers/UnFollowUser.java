@@ -37,13 +37,13 @@ public class UnFollowUser extends HttpServlet {
 		User fuser = new User();
 		UserManager userManager = new UserManager();
 		HttpSession session = request.getSession(false);
-		User user = (User) session.getAttribute("user");
-		
+		User user = (User) session.getAttribute("login");
 		try {
-			
 			if (session != null || user != null)
 				BeanUtils.populate(fuser, request.getParameterMap());
+				System.out.println("Unfollowing...");
 				userManager.unfollowUser(user.getId(),fuser.getId());
+				System.out.println("Unfollowed " + fuser.getId());
 				userManager.finalize();
 
 		} catch (IllegalAccessException | InvocationTargetException e) {

@@ -24,7 +24,7 @@ $(document).ready(function(){
 	/* Add tweet */
 	$(document).on("click","#addTweet",function(event){
 		$.post( "AddTweet", { content: $("#tweetContent").text()}, function(event) {
-			$("#content").load("ViewTweetsController");		
+			$("#content").load("ProfilePageController");		
 		});
 		event.preventDefault();
 	});
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	$(document).on("click",".followUser",function(event){
 		var user = $(this).parent();
 		$.post( "FollowUser", { id: $(this).parent().attr("id") }, function(event) { 
-			$("#content").load("GetFollowedUsers");
+			$("#content").load("ProfilePageController");
 			$("#lcolumn").load("GetNotFollowedUsers");
 		});
 		event.preventDefault();
@@ -49,8 +49,8 @@ $(document).ready(function(){
 	$(document).on("click",".unfollowUser",function(event) {
 		var user = $(this).parent();
 		$.post( "UnFollowUser", { id: $(this).parent().attr("id") }, function(event) {
-			$("#content").load("GetFollowedUsers");
-			$("#lcolumn").load("GetNotFollowedUsers");
+			$("#content").load("ViewTweetsController");
+			$("#lcolumn").load("GetFollowedUsers");
 		});
 		event.preventDefault();
 	});

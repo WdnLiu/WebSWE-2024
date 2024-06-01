@@ -19,14 +19,14 @@ import models.User;
 /**
  * Servlet implementation class ViewTweetsController
  */
-@WebServlet("/ViewTweetsController")
-public class ViewTweetsController extends HttpServlet {
+@WebServlet("/ViewOwnTweetsController")
+public class ViewOwnTweetsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewTweetsController() {
+    public ViewOwnTweetsController() {
         super();
 
         // TODO Auto-generated constructor stub
@@ -39,30 +39,22 @@ public class ViewTweetsController extends HttpServlet {
 		
 		String view = "ViewTweetsNotLogged.jsp"; 
 		List<Tweet> tweets = Collections.emptyList();
-		System.out.print("ViewTweetsController: ");
+		System.out.print("ViewOwnTweetsController: ");
 		
 		HttpSession session = request.getSession();
 
 		User user = (User) session.getAttribute("login");
-		if (user != null) {
+
+		if (session != null || user != null) {
 			System.out.println("forwarding to ViewTweets");
 			view = "ViewTweets.jsp";
 
 			ManageTweets tweetManager = new ManageTweets();
-			tweets = tweetManager.getTweetsRegistered(user.getId(),0,4);
-			tweetManager.finalize();
-			
+			tweets = tweetManager.getUserTweets(user.getId(),0,4);
 			for (Tweet t : tweets) {
 				System.out.println("username:" + t.getUser().getUser());
 			}
-		}
-		else {
-			
-			System.out.println("forwarding to ViewTweetsNotLogged ");
-			ManageTweets tweetManager = new ManageTweets();
-			tweets = tweetManager.getTweetsAnonymous(0,4);
 			tweetManager.finalize();
-			
 		}
 		request.setAttribute("tweets",tweets);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);

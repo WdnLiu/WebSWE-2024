@@ -106,14 +106,14 @@ public class UserManager {
         return false;
     }
     
-	public User getUser(Integer id) {
+	public User getUser(Integer uid) {
 		String query = "SELECT id, name, usr, mail, date_of_birth, fav_singer, fav_song, pref_genre FROM Users WHERE id = ? ;";
 		PreparedStatement statement = null;
 		ResultSet rs = null;
 		User user = null;
 		try {
 			statement = db.prepareStatement(query);
-			statement.setInt(1,id);
+			statement.setInt(1,uid);
 			rs = statement.executeQuery();
 			if (rs.next()) {
 				user = new User();
@@ -134,6 +134,36 @@ public class UserManager {
 		
 		return user;
 	}
+	
+	public User getForceUser(Integer uid) {
+		String query = "SELECT id, name, usr, mail, date_of_birth, fav_singer, fav_song, pref_genre FROM Users WHERE id = ? ;";
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		User user = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,uid);
+			rs = statement.executeQuery();
+			if (rs.next()) {
+				user = new User();
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.forceSetUser(rs.getString("usr"));
+				user.setMail(rs.getString("mail"));
+				user.setBorn(rs.getString("date_of_birth"));
+				user.setFavSinger(rs.getString("fav_singer"));
+				user.setFavSong(rs.getString("fav_song"));
+				user.setPref(rs.getString("pref_genre"));
+			}
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
     
     
     /*Check if all the fields are filled correctly */
@@ -242,6 +272,31 @@ public class UserManager {
     
 	public List<User> getNotFollowedUsers(Integer id, Integer start, Integer end) {
 		 String query = "SELECT id,name FROM Users WHERE id NOT IN (SELECT id FROM Users, Followers WHERE follower_user_id = ? AND followed_user_id = id) AND id <> ? ORDER BY name LIMIT ?,?;";
+		 PreparedStatement statement = null;
+		 List<User> l = new ArrayList<User>();
+		 try {
+			 statement = db.prepareStatement(query);
+			 statement.setInt(1,id);
+			 statement.setInt(2, id);
+			 statement.setInt(3,start);
+			 statement.setInt(4,end);
+			 ResultSet rs = statement.executeQuery();
+			 while (rs.next()) {
+				 User user = new User();
+				 user.setId(rs.getInt("id"));
+				 user.setName(rs.getString("name"));
+				 l.add(user);
+			 }
+			 rs.close();
+			 statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return  l;
+	}
+	
+	public List<User> getFollowedUsers(Integer id, Integer start, Integer end) {
+		 String query = "SELECT id,name FROM Users WHERE id IN (SELECT id FROM Users, Followers WHERE follower_user_id = ? AND followed_user_id = id) AND id <> ? ORDER BY name LIMIT ?,?;";
 		 PreparedStatement statement = null;
 		 List<User> l = new ArrayList<User>();
 		 try {

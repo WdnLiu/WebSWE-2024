@@ -7,7 +7,7 @@
     $('#navigation').load('MenuController');
     $('#lcolumn').load('GetNotFollowedUsers');
     $('#rcolumn').load('ViewProfileController');
-    $('#iterator').load('ViewTweetsController');
+    $('#iterator').load('ViewOwnTweetsController');
  });
 </script>
     <!-- Input Column -->

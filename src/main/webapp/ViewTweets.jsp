@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="path/to/your/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="w3-col m3"><p></div>
-        <div class="w3-col m6">
+    <div class="container center">
+        <div class="w3-col"><p></div>
+        <div class="w3-col">
             <c:forEach var="tweet" items="${tweets}">
                 <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
                     <img src="/path/to/avatar.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                     <span class="w3-right w3-opacity">1 min</span>
                     <h4>${tweet.title}</h4><br>
+                    By ${tweet.user.name} <div class="w3-text-grey">@${tweet.user.user}</div>
                     <hr class="w3-clear">
                     <p>${tweet.content}</p>
                     <div class="w3-row-padding" style="margin:0 -16px">
