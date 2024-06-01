@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,22 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import managers.UserManager;
 import models.User;
 
 /**
- * Servlet implementation class ViewTweetsController
+ * Servlet implementation class GetFollows
  */
-@WebServlet("/ViewChatController")
-public class ViewChatController extends HttpServlet {
+@WebServlet("/GetUsers")
+public class GetUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewChatController() {
+    public GetUsers() {
         super();
-
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -33,20 +34,23 @@ public class ViewChatController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String view = "ViewTweetsNotLogged.jsp"; 
-		System.out.print("ViewChatController: ");
+		System.out.print("GetUsers: ");
+		List<User> users = Collections.emptyList();
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		User user = (User) session.getAttribute("login");
 
-		if (session.getAttribute("user")!=null) {
-			System.out.println("forwarding to ViewChat");
-			view = "ViewChat.jsp";
+		if (session != null || user != null) {
+		
+			UserManager userManager = new UserManager();
+			users = userManager.getUsers(0,4);
+			userManager.finalize();
+		
 		}
-		else {
-			System.out.println("forwarding to ViewTweetsNotLogged ");
-		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);
+		System.out.print("GetUsers: Viewing Users ");
+		request.setAttribute("users",users);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/ViewUsers.jsp"); 
+		dispatcher.forward(request,response);
 	}
 
 	/**
