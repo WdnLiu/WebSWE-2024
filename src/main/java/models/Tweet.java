@@ -1,5 +1,6 @@
 package models;
 import java.sql.Timestamp;
+import managers.UserManager;
 
 public class Tweet implements java.io.Serializable {
 
@@ -25,6 +26,13 @@ public class Tweet implements java.io.Serializable {
 
 	 public int getUid() {
 		 return this.uid;
+	 }
+	 
+	 public User getUser() {
+		 UserManager um = new UserManager();
+		 User r = um.getForceUser(getUid());
+		 um.finalize();
+		 return r;
 	 }
 	 
 	 public void setUid(int uid) {

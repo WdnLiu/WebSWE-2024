@@ -3,6 +3,8 @@
 
 <script type="text/javascript">
 $('#navigation').load('MenuController');
+$('#lcolumn').load('Empty');
+$('#rcolumn').load('Empty');
 </script>
 
 <p id="nav"> Logout done! </p>
