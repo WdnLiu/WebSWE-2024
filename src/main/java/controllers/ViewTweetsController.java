@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import managers.ManageTweets;
+import models.Tweet;
 import models.User;
 
 /**
@@ -34,8 +38,7 @@ public class ViewTweetsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String view = "ViewTweetsNotLogged.jsp"; 
-		
-		
+		List<Tweet> tweets = Collections.emptyList();
 		System.out.print("ViewTweetsController: ");
 		
 		HttpSession session = request.getSession();
@@ -47,8 +50,12 @@ public class ViewTweetsController extends HttpServlet {
 		else {
 			
 			System.out.println("forwarding to ViewTweetsNotLogged ");
+			ManageTweets tweetManager = new ManageTweets();
+			tweets = tweetManager.getTweetsAnonymous(0,4);
+			tweetManager.finalize();
 			
 		}
+		request.setAttribute("tweets",tweets);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

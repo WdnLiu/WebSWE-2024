@@ -71,7 +71,7 @@ public class ManageTweets {
 	
 	/* Get tweets from a user given start and end*/
 	public List<Tweet> getUserTweets(Integer uid,Integer start, Integer end) {
-		 String query = "SELECT Tweets.id,Tweets.uid,Tweets.postdatetime,Tweets.content,Users.name FROM Tweets INNER JOIN Users ON Tweets.uid = Users.id where Tweets.uid = ? ORDER BY Tweets.postdatetime DESC LIMIT ?,? ;";
+		 String query = "SELECT Tweets.tweet_id,Tweets.user_id,Tweets.post_time,Tweets.content,Users.name FROM Tweets INNER JOIN Users ON Tweets.user_id = Users.id where Tweets.user_id = ? ORDER BY Tweets.post_time DESC LIMIT ?,? ;";
 		 PreparedStatement statement = null;
 		 List<Tweet> l = new ArrayList<Tweet>();
 		 try {
@@ -96,6 +96,32 @@ public class ManageTweets {
 		} 
 		return  l;
 	}
-	
+
+	/* Get tweets given start and end*/
+	public List<Tweet> getTweetsAnonymous(Integer start, Integer end) {
+		String query = "SELECT Tweets.tweet_id,Tweets.user_id,Tweets.post_time, Tweets.title,Tweets.content,Users.name FROM Tweets INNER JOIN Users ON Tweets.user_id = Users.id ORDER BY Tweets.post_time DESC LIMIT ?,? ;";
+		PreparedStatement statement = null;
+		List<Tweet> l = new ArrayList<Tweet>();
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,start);
+			statement.setInt(2,end);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Tweet tweet = new Tweet();
+				tweet.setId(rs.getInt("tweet_id"));
+				tweet.setUid(rs.getInt("user_id"));
+				tweet.setPostDateTime(rs.getTimestamp("post_time"));
+				tweet.setContent(rs.getString("content"));
+				tweet.setTitle(rs.getString("title"));
+				l.add(tweet);
+			}
+			rs.close();
+			statement.close();
+	   } catch (SQLException e) {
+		   e.printStackTrace();
+	   } 
+	   return  l;
+   }
 	
 }
