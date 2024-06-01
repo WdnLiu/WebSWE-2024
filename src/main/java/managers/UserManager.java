@@ -149,7 +149,7 @@ public class UserManager {
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.forceSetUser(rs.getString("usr"));
-				user.setMail(rs.getString("mail"));
+				user.forceSetMail(rs.getString("mail"));
 				user.setBorn(rs.getString("date_of_birth"));
 				user.setFavSinger(rs.getString("fav_singer"));
 				user.setFavSong(rs.getString("fav_song"));
@@ -158,7 +158,7 @@ public class UserManager {
 			rs.close();
 			statement.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		
 		return user;

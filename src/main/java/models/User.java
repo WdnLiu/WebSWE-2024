@@ -101,6 +101,7 @@ public class User implements java.io.Serializable {
 		this.user = user;
 	}
 	
+	
 	public String getMail() {
 		return this.mail;
 	}
