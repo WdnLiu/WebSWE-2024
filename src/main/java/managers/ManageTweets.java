@@ -55,7 +55,7 @@ public class ManageTweets {
 	
 	/* Delete existing tweet */
 	public void deleteTweet(Integer id,Integer uid) {
-		String query = "DELETE FROM Tweets WHERE id = ? AND uid=?";
+		String query = "DELETE FROM Tweets WHERE tweet_id = ? AND user_id=?";
 		PreparedStatement statement = null;
 		try {
 			statement = db.prepareStatement(query);

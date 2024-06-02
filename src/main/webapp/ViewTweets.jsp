@@ -11,7 +11,7 @@
         <div class="w3-col"><p></div>
         <div class="w3-col">
             <c:forEach var="tweet" items="${tweets}">
-                <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+                <div id="${tweet.id}" class="w3-container w3-card w3-white w3-round w3-margin"><br>
                     <img src="/path/to/avatar.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                     <span class="w3-right w3-opacity">1 min</span>
                     <h4>${tweet.title}</h4><br>
@@ -27,6 +27,9 @@
                     <p>${tweet.content}</p> 
                     <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button>
                     <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>
+                    <c:if test="${tweet.uid == login.id}">
+                   		<button type="button" class="delTweet w3-button w3-red w3-margin-bottom"><i class="fa fa-trash"></i> &nbsp;Delete</button> 
+                    </c:if>
                 </div>
             </c:forEach>
         </div>

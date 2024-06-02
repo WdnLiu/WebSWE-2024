@@ -64,7 +64,7 @@ $(document).ready(function(){
     $(document).on("click",".delTweet",function(event){
         var tweet = $(this).parent();
         $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
-            $("#content").load("ViewTweetsController");                
+            $("#content").load("ProfilePageController");                
         });
         event.preventDefault();
     });
