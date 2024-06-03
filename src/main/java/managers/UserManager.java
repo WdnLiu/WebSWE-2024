@@ -319,24 +319,4 @@ public class UserManager {
 		} 
 		return  l;
 	}
-	
-	   public void updateUser(User user) {
-	        String query = "UPDATE Users SET name = ?, mail = ?, date_of_birth = ?, fav_singer = ?, fav_song = ?, pref_genre = ? WHERE usr = ?";
-
-	        try {
-	            PreparedStatement statement = db.prepareStatement(query);
-	            statement.setString(1, user.getName());
-	            statement.setString(2, user.getMail());
-	            statement.setString(3, user.getBorn());
-	            statement.setString(4, user.getFavSinger());
-	            statement.setString(5, user.getFavSong());
-	            statement.setString(6, user.getPref());
-	            statement.setString(7, user.getUser());
-
-	            statement.executeUpdate();
-	            statement.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
 }
