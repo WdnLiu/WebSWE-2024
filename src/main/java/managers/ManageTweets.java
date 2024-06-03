@@ -53,9 +53,12 @@ public class ManageTweets {
 		}
 	}
 	
+	
+	
+	
 	/* Delete existing tweet */
 	public void deleteTweet(Integer id,Integer uid) {
-		String query = "DELETE FROM Tweets WHERE id = ? AND uid=?";
+		String query = "DELETE FROM Tweets WHERE tweet_id = ? AND user_id=?";
 		PreparedStatement statement = null;
 		try {
 			statement = db.prepareStatement(query);
@@ -157,6 +160,21 @@ public class ManageTweets {
 			 statement = db.prepareStatement(query);
 			 statement.setString(1,path);
 			 statement.setInt(2,uid);
+			 statement.executeUpdate();
+			 statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void editTweet(String content, Integer id, Integer uid) {
+		 String query = "UPDATE Tweets SET content = ? WHERE tweet_id = ? AND user_id = ?;";
+		 PreparedStatement statement = null;
+		 try {
+			 statement = db.prepareStatement(query);
+			 statement.setString(1,content);
+			 statement.setInt(2,id);
+			 statement.setInt(3,uid);
 			 statement.executeUpdate();
 			 statement.close();
 		} catch (SQLException e) {
