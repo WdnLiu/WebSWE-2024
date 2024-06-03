@@ -57,7 +57,6 @@ public class ViewOwnTweetsController extends HttpServlet {
 			tweetManager.finalize();
 		}
 		request.setAttribute("tweets",tweets);
-		request.setAttribute("login",user);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

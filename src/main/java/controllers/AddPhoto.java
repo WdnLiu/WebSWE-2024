@@ -58,17 +58,16 @@ public class AddPhoto extends HttpServlet {
 			for (FileItem f : file) {
 				f.write(new File(projectPath + "/imgs/" + user.getUser() +f.getName()));
 				path = "imgs/" + user.getUser() + f.getName();
-				System.out.println("IMAGE NAME: " + f.getName()); 
 			}
+			
 			System.out.println("Archivo Subido: " + path);
-			System.out.println("imgs/" + user.getUser() + null);
-			if (path.equals("imgs/" + user.getUser() + null)) return;
 		} catch (FileUploadException e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
 		ManageTweets mt = new ManageTweets();
 		Tweet t = mt.getUserLastTweet(user.getId());
 		mt.addImagePath(path, t.getId());

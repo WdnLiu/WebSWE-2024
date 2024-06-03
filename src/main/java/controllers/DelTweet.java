@@ -35,16 +35,15 @@ public class DelTweet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.print("DelTweet: ");
+	
 		Tweet tweet = new Tweet();
 		ManageTweets tweetManager = new ManageTweets();
 		HttpSession session = request.getSession(false);
-		User user = (User) session.getAttribute("login");
+		User user = (User) session.getAttribute("user");
 
 		try {
 			if (session != null || user != null) {
 				BeanUtils.populate(tweet, request.getParameterMap());
-				System.out.println("Tweet" + tweet.getId() + "deleted");
 				tweetManager.deleteTweet(tweet.getId(),user.getId());
 				tweetManager.finalize();
 			}
