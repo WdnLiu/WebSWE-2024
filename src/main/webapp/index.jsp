@@ -57,6 +57,21 @@ $(document).ready(function(){
 	    );
 	});
 
+	
+	/* Edit tweet */
+	$(document).on("click", "#editTweetSubmit", function(event){
+	    $.post("EditTweet", 
+	        { 
+	            id: $("#tweetID").val(),
+	            content: $("#tweetContenido").val(),
+	        }, 
+	        function(response) {
+	            $("#content").load("ProfilePageController");
+	        }
+	    );
+	    event.preventDefault();
+	});
+
 
 	
 	

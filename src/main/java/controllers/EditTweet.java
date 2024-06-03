@@ -27,14 +27,14 @@ import models.User;
 /**
  * Servlet implementation class AddTweetFromUser
  */
-@WebServlet("/AddPhoto")
-public class AddPhoto extends HttpServlet {
+@WebServlet("/EditTweet")
+public class EditTweet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddPhoto() {
+    public EditTweet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,36 +43,29 @@ public class AddPhoto extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path = null;
-		System.out.print("AddTweet: ");
+		System.out.println("EditTweet: ");
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("login");
+		Tweet tweet = new Tweet();
+		ManageTweets tweetManager = new ManageTweets();
+
 		
-		ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
-		List<FileItem> file;
 		try {
-			file = sf.parseRequest(request);
-			String projectPath = getServletContext().getRealPath("/");
-			
-			System.out.println("ProjectPath: " + projectPath);
-			for (FileItem f : file) {
-				f.write(new File(projectPath + "/imgs/" + user.getUser() +f.getName()));
-				path = "imgs/" + user.getUser() + f.getName();
-				System.out.println("IMAGE NAME: " + f.getName()); 
-			}
-			System.out.println("Archivo Subido: " + path);
-			System.out.println("imgs/" + user.getUser() + null);
-			if (path.equals("imgs/" + user.getUser() + null)) return;
-		} catch (FileUploadException e) {
-			e.printStackTrace(); 
-		} catch (Exception e) {
+			if (user != null)
+			    System.out.print("UserID: ");
+			    System.out.println(user.getId());
+			    BeanUtils.populate(tweet, request.getParameterMap());
+			    System.out.print("ID: " + tweet.getId() + " New tweet Content: " + tweet.getContent());
+			    System.out.println(" From user: " + user.getId());
+			    tweet.setPostDateTime(new Timestamp(System.currentTimeMillis()));
+			    tweetManager.editTweet(tweet.getContent(), tweet.getId(), user.getId());
+			    tweetManager.finalize();
+
+
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		ManageTweets mt = new ManageTweets();
-		Tweet t = mt.getUserLastTweet(user.getId());
-		mt.addImagePath(path, t.getId());
-		System.out.println("Path ajustado a TID: " + t.getId() + " " + path + ", Usuario ID:" + user.getId());
+		}
 	}
 
 	/**
