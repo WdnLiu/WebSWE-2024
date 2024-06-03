@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import managers.ManageTweets;
+import managers.UserManager;
 import models.Tweet;
 import models.User;
 
@@ -40,17 +41,16 @@ public class ViewTweetsController extends HttpServlet {
 		String view = "ViewTweetsNotLogged.jsp"; 
 		List<Tweet> tweets = Collections.emptyList();
 		System.out.print("ViewTweetsController: ");
-		
+		UserManager userManager = new UserManager();
 		HttpSession session = request.getSession(false);
-
+		request.setAttribute("page", "View");
 		User user = (User) session.getAttribute("login");
 		if (user != null) {
 			System.out.println("forwarding to ViewTweets");
 			view = "ViewTweets.jsp";
-
+			request.setAttribute("isAdmin", userManager.isAdmin(user.getId()));
 			ManageTweets tweetManager = new ManageTweets();
 			tweets = tweetManager.getTweetsRegistered(user.getId(),0,4);
-			tweetManager.finalize();
 			
 			for (Tweet t : tweets) {
 				System.out.println("username:" + t.getUser().getUser());
@@ -61,6 +61,7 @@ public class ViewTweetsController extends HttpServlet {
 			System.out.println("forwarding to ViewTweetsNotLogged ");
 			ManageTweets tweetManager = new ManageTweets();
 			tweets = tweetManager.getTweetsAnonymous(0,4);
+			userManager.finalize();
 			tweetManager.finalize();
 			
 		}

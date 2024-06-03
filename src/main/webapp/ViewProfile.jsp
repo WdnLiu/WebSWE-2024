@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" session="true"%>
 <%@ page import="models.User" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
     User user = (User) session.getAttribute("login");
@@ -25,7 +26,14 @@
             <img src="path_to_profile_picture" alt="Avatar" class="w3-circle" style="width:100%">
         </div>
         <div class="w3-col m8">
-            <h4 id="profileName"><%= user.getName() %></h4>
+			<c:choose>
+			    <c:when test="${isAdmin}">
+			        <h4 id="profileName" class="w3-text-red"> <%= user.getName() %></h4>
+			    </c:when>
+			    <c:otherwise>
+			        <h4 id="profileName" class="w3-text-indigo"> <%= user.getName() %></h4>
+			    </c:otherwise>
+			</c:choose>
             <p id="profileUser">Username: <%= user.getUser() %></p>
             <p id="profileEmail">Email: <%= user.getMail() %></p>
             <p id="profileBorn">Date of Birth: <%= user.getBorn() %></p>

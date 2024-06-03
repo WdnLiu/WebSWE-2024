@@ -59,7 +59,7 @@ $(document).ready(function(){
 
 	
 	/* Edit tweet */
-	$(document).on("click", "#editTweetSubmit", function(event){
+	$(document).on("click", "#editTweetSubmitOwn", function(event){
 	    $.post("EditTweet", 
 	        { 
 	            id: $("#tweetID").val(),
@@ -71,6 +71,38 @@ $(document).ready(function(){
 	    );
 	    event.preventDefault();
 	});
+	
+    /* Delete tweet */
+    $(document).on("click",".delTweetView",function(event){
+        var tweet = $(this).parent();
+        $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
+            $("#content").load("ViewTweetsController");                
+        });
+        event.preventDefault();
+    });
+    
+	/* Edit tweet */
+	$(document).on("click", "#editTweetSubmitView", function(event){
+	    $.post("EditTweet", 
+	        { 
+	            id: $("#tweetID").val(),
+	            content: $("#tweetContenido").val(),
+	        }, 
+	        function(response) {
+	            $("#content").load("ViewTweetsController");
+	        }
+	    );
+	    event.preventDefault();
+	});
+	
+    /* Delete tweet */
+    $(document).on("click",".delTweetOwn",function(event){
+        var tweet = $(this).parent();
+        $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
+            $("#content").load("ProfilePageController");                
+        });
+        event.preventDefault();
+    });
 
 	
 	$(document).on('click','#saveChangesBtn', function(event) {
@@ -81,14 +113,7 @@ $(document).ready(function(){
 	});
 	
 	
-    /* Delete tweet */
-    $(document).on("click",".delTweet",function(event){
-        var tweet = $(this).parent();
-        $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
-            $("#content").load("ProfilePageController");                
-        });
-        event.preventDefault();
-    });
+
     
     /* Follow user */
     $(document).on("click",".followUser",function(event){

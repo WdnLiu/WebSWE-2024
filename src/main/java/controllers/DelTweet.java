@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanUtils;
 
 import managers.ManageTweets;
+import managers.UserManager;
 import models.Tweet;
 import models.User;
 
@@ -38,6 +39,7 @@ public class DelTweet extends HttpServlet {
 		System.out.print("DelTweet: ");
 		Tweet tweet = new Tweet();
 		ManageTweets tweetManager = new ManageTweets();
+		UserManager userManager = new UserManager();
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("login");
 
@@ -45,12 +47,18 @@ public class DelTweet extends HttpServlet {
 			if (session != null || user != null) {
 				BeanUtils.populate(tweet, request.getParameterMap());
 				System.out.println("Tweet" + tweet.getId() + "deleted");
-				tweetManager.deleteTweet(tweet.getId(),user.getId());
-				tweetManager.finalize();
+				if (userManager.isAdmin(user.getId())) {
+					tweetManager.deleteTweetAdmin(tweet.getId());
+				} else {
+					tweetManager.deleteTweet(tweet.getId(),user.getId());
+				}
+				
 			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		tweetManager.finalize();
+		userManager.finalize();
 	}
 
 	/**

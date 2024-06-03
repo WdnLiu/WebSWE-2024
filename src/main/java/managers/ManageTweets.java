@@ -58,12 +58,41 @@ public class ManageTweets {
 	
 	/* Delete existing tweet */
 	public void deleteTweet(Integer id,Integer uid) {
+		deleteLikes(id);
 		String query = "DELETE FROM Tweets WHERE tweet_id = ? AND user_id=?";
 		PreparedStatement statement = null;
 		try {
 			statement = db.prepareStatement(query);
 			statement.setInt(1,id);
 			statement.setInt(2,uid);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteLikes(Integer id) {
+		String query = "DELETE FROM Likes WHERE tweet_id = ?";
+		PreparedStatement statement = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,id);
+			statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* Delete existing tweet */
+	public void deleteTweetAdmin(Integer id) {
+		deleteLikes(id);
+		String query = "DELETE FROM Tweets WHERE tweet_id = ?";
+		PreparedStatement statement = null;
+		try {
+			statement = db.prepareStatement(query);
+			statement.setInt(1,id);
 			statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e) {
@@ -181,6 +210,21 @@ public class ManageTweets {
 			e.printStackTrace();
 		} 
 	}
+	
+	public void editTweetAdmin(String content, Integer id) {
+		 String query = "UPDATE Tweets SET content = ? WHERE tweet_id = ?;";
+		 PreparedStatement statement = null;
+		 try {
+			 statement = db.prepareStatement(query);
+			 statement.setString(1,content);
+			 statement.setInt(2,id);
+			 statement.executeUpdate();
+			 statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 
 	/* Get tweets given start and end*/
 	public List<Tweet> getTweetsRegistered(Integer uid, Integer start, Integer end) {

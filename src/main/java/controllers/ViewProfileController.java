@@ -34,6 +34,8 @@ public class ViewProfileController extends HttpServlet {
             System.out.println("Favorite Song: " + user.getFavSong());
             System.out.println("Preferred Genre: " + user.getPref());
     		request.setAttribute("userInfo", user);
+    		request.setAttribute("isAdmin", userManager.isAdmin(user.getId()));
+    		userManager.finalize();
 
         } else {
             view = "ViewLoginForm.jsp";

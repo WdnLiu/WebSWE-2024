@@ -1,10 +1,8 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import managers.ManageTweets;
+import managers.UserManager;
 import models.Tweet;
 import models.User;
 
@@ -48,7 +43,7 @@ public class EditTweet extends HttpServlet {
 		User user = (User) session.getAttribute("login");
 		Tweet tweet = new Tweet();
 		ManageTweets tweetManager = new ManageTweets();
-
+		UserManager userManager = new UserManager();
 		
 		try {
 			if (user != null)
@@ -58,14 +53,21 @@ public class EditTweet extends HttpServlet {
 			    System.out.print("ID: " + tweet.getId() + " New tweet Content: " + tweet.getContent());
 			    System.out.println(" From user: " + user.getId());
 			    tweet.setPostDateTime(new Timestamp(System.currentTimeMillis()));
-			    tweetManager.editTweet(tweet.getContent(), tweet.getId(), user.getId());
-			    tweetManager.finalize();
+			    if(userManager.isAdmin(user.getId())) {
+			    	tweetManager.editTweetAdmin(tweet.getContent(), tweet.getId());
+			    } else {
+				    tweetManager.editTweet(tweet.getContent(), tweet.getId(), user.getId());
+			    }
+			    
 
 
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		tweetManager.finalize();
+		userManager.finalize();
 	}
 
 	/**

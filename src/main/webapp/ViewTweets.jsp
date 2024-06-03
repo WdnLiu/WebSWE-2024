@@ -20,8 +20,8 @@
                 <p>${tweet.content}</p> 
                 <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button>
                 <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>
-                <c:if test="${tweet.uid == login.id}">
-                    <button type="button" class="delTweet w3-button w3-red w3-margin-bottom"><i class="fa fa-trash"></i> &nbsp;Delete</button> 
+                <c:if test="${tweet.uid == login.id || isAdmin}">
+                    <button type="button" class="delTweet${page} w3-button w3-red w3-margin-bottom"><i class="fa fa-trash"></i> &nbsp;Delete</button> 
                     <button type="button" class="editTweet w3-button w3-indigo w3-margin-bottom" data-id="${tweet.id}" data-title="${tweet.title}" data-content="${tweet.content}" data-image-path="${tweet.image_path}"><i class="fa fa-pencil"></i> &nbsp;&nbsp;Edit</button> 
                 </c:if>
             </div>
@@ -30,16 +30,16 @@
 </div>
 
 <!-- The Popup -->
-<div id="editModal" class="w3-modal">
+<div id="editModal2" class="w3-modal">
     <div class="w3-modal-content w3-animate-zoom">
         <div class="w3-container w3-padding-16">
-            <span class="w3-button w3-display-topright" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+            <span class="w3-button w3-display-topright" onclick="document.getElementById('editModal2').style.display='none'">&times;</span>
             <h4>Edit your tweet:</h4>
             <form id="editForm" action="editTweet" method="post">
                 <input type="hidden" id="tweetID" name="ID"><br>
                 <label for="content">Content:</label>
                 <textarea id="tweetContenido" name="content" class="w3-input w3-border"></textarea><br>
-                <button type="submit" id="editTweetSubmit" class="w3-button w3-indigo">Save Changes</button>
+                <button type="submit" id="editTweetSubmit${page}" class="w3-button w3-indigo">Save Changes</button>
             </form>
         </div>
     </div>
@@ -47,7 +47,7 @@
 
 <script>
     // Get the modal
-    var modal = document.getElementById('editModal');
+    var modal = document.getElementById('editModal2');
 
     // When the user clicks the button, open the modal 
     document.querySelectorAll('.editTweet').forEach(button => {

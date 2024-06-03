@@ -60,6 +60,7 @@ public class UserManager {
         }
     }
     
+    
     public boolean checkUserNotRepeat(User user) {
         try {
 			PreparedStatement q = db.prepareStatement("SELECT * FROM Users WHERE (usr = ? || mail = ?);");
@@ -339,4 +340,20 @@ public class UserManager {
 	            e.printStackTrace();
 	        }
 	    }
+	   
+	   	public boolean isAdmin(Integer id) {
+			try {
+			    PreparedStatement query = db.prepareStatement("SELECT * FROM Admins WHERE uid = ?;");
+			    query.setInt(1, id);
+			    ResultSet result = query.executeQuery();
+			    if (result.next()){
+			    	System.out.println("User Is Admin");
+			        return true;
+			    }
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			}
+			System.out.println("User is Not Admin");
+			return false;
+	   }
 }
