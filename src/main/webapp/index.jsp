@@ -57,21 +57,6 @@ $(document).ready(function(){
 	    );
 	});
 
-	
-	/* Edit tweet */
-	$(document).on("click", "#editTweetSubmit", function(event){
-	    $.post("EditTweet", 
-	        { 
-	            id: $("#tweetID").val(),
-	            content: $("#tweetContenido").val(),
-	        }, 
-	        function(response) {
-	            $("#content").load("ProfilePageController");
-	        }
-	    );
-	    event.preventDefault();
-	});
-
 
 	
 	
@@ -79,7 +64,7 @@ $(document).ready(function(){
     $(document).on("click",".delTweet",function(event){
         var tweet = $(this).parent();
         $.post( "DelTweet", { id: $(this).parent().attr("id") } , function(event) {
-            $("#content").load("ProfilePageController");                
+            $("#content").load("ViewTweetsController");                
         });
         event.preventDefault();
     });
