@@ -62,24 +62,7 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
-$(document).ready(function() {
-    $('#saveChangesBtn').on('click', function(event) {
-        event.preventDefault();
-        var formData = $('#editProfileForm').serialize();
-        $.post('UpdateProfileController', formData, function(response) {
-            var updatedUser = JSON.parse(response);
 
-            $('#profileName').text(updatedUser.name);
-            $('#profileEmail').text('Email: ' + updatedUser.mail);
-            $('#profileBorn').text('Date of Birth: ' + updatedUser.born);
-            $('#profileFavSinger').text('Favorite Singer: ' + updatedUser.favSinger);
-            $('#profileFavSong').text('Favorite Song: ' + updatedUser.favSong);
-            $('#profilePref').text('Preferred Genre: ' + updatedUser.pref);
-
-            document.getElementById('editModal').style.display='none';
-        });
-    });
-});
 </script>

@@ -72,7 +72,13 @@ $(document).ready(function(){
 	    event.preventDefault();
 	});
 
-
+	
+	$(document).on('click','#saveChangesBtn', function(event) {
+        var formData = $('#editProfileForm').serialize();
+        $.post('UpdateProfileController', formData, function(response) {
+        	$("#content").load("ProfilePageController");
+        });
+	});
 	
 	
     /* Delete tweet */
